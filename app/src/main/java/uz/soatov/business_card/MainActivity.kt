@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,11 +38,7 @@ class MainActivity : ComponentActivity() {
 		setContent {
 			Business_cardTheme {
 				Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-					BusinessCard(
-						modifier = Modifier
-							.padding(innerPadding)
-							.padding(vertical = 16.dp)
-					)
+					BusinessCard(modifier = Modifier.padding(innerPadding))
 				}
 			}
 		}
@@ -56,8 +54,7 @@ fun BusinessCard(modifier: Modifier = Modifier) {
 		modifier = modifier.fillMaxSize()
 	) {
 		Profile(
-			modifier
-				.fillMaxWidth()
+			name = "Suhrobbek Soatov", label = "Android Developer", modifier = modifier
 		)
 		ContactInfo(
 			phoneNumber = "+99 589 58 50",
@@ -68,40 +65,22 @@ fun BusinessCard(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Profile(modifier: Modifier = Modifier) {
+fun Profile(name: String, label: String, modifier: Modifier = Modifier) {
 	Column(
-		modifier = modifier.fillMaxWidth(),
-		verticalArrangement = Arrangement.spacedBy(16.dp),
+		modifier = modifier
+			.fillMaxWidth()
+			.padding(top = 16.dp),
 		horizontalAlignment = Alignment.CenterHorizontally
 	) {
-		ProfileImage()
-		ProfileInfo(name = "Suhrobbek Soatov", label = "Android Developer")
-	}
-}
+		GetImage(
+			painter = painterResource(id = R.drawable.profile),
+			alt = "my photo",
+			modifier = modifier
+				.clip(CircleShape)
+				.width(240.dp)
+				.height(240.dp)
 
-@Composable
-fun GetImage(painter: Painter, alt: String, modifier: Modifier = Modifier) {
-	Image(
-		painter = painter, contentDescription = alt, modifier = modifier
-	)
-}
-
-@Composable
-fun ProfileImage(modifier: Modifier = Modifier) {
-	val painter = painterResource(id = R.drawable.profile)
-
-	GetImage(
-		painter = painter, alt = "my photo", modifier = modifier
-			.clip(
-				CircleShape
-			)
-			.size(240.dp)
-	)
-}
-
-@Composable
-fun ProfileInfo(name: String, label: String, modifier: Modifier = Modifier) {
-	Column(modifier = modifier.fillMaxWidth()) {
+		)
 		Text(
 			text = name,
 			fontSize = 36.sp,
@@ -123,6 +102,13 @@ fun ProfileInfo(name: String, label: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun GetImage(painter: Painter, alt: String, modifier: Modifier = Modifier) {
+	Image(
+		painter = painter, contentDescription = alt, modifier = modifier
+	)
+}
+
+@Composable
 fun ContactInfo(
 	phoneNumber: String,
 	email: String,
@@ -131,16 +117,19 @@ fun ContactInfo(
 ) {
 	Column(
 		verticalArrangement = Arrangement.spacedBy(10.dp),
-		modifier = modifier.fillMaxWidth(0.7F)
+		modifier = modifier
+			.fillMaxWidth(0.7F)
+			.padding(bottom = 16.dp)
 	) {
 		val phonePainter = painterResource(id = R.drawable.phone)
 		val mailPainter = painterResource(id = R.drawable.mail)
 		val laptopPainter = painterResource(id = R.drawable.laptop)
-		Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+		Row(
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.spacedBy(10.dp)
+		) {
 			GetImage(
-				painter = phonePainter,
-				alt = "phone",
-				modifier.size(24.dp)
+				painter = phonePainter, alt = "phone", modifier.size(24.dp)
 			)
 			Text(
 				text = phoneNumber,
@@ -149,11 +138,12 @@ fun ContactInfo(
 				fontWeight = FontWeight.SemiBold,
 			)
 		}
-		Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+		Row(
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.spacedBy(10.dp)
+		) {
 			GetImage(
-				painter = mailPainter,
-				alt = "phone",
-				modifier.size(24.dp)
+				painter = mailPainter, alt = "phone", modifier.size(24.dp)
 			)
 			Text(
 				text = email,
@@ -162,16 +152,19 @@ fun ContactInfo(
 				fontWeight = FontWeight.SemiBold,
 			)
 		}
-		Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)){
+		Row(
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.spacedBy(10.dp)
+		) {
 			GetImage(
-				painter = laptopPainter,
-				alt = "phone", modifier.size(24.dp)
+				painter = laptopPainter, alt = "phone", modifier.size(24.dp)
 			)
 			Text(
 				text = website,
 				fontSize = 16.sp,
 				lineHeight = 24.sp,
 				fontWeight = FontWeight.SemiBold,
+				modifier = modifier
 			)
 		}
 
@@ -181,5 +174,5 @@ fun ContactInfo(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun BusinessCardPreview() {
-	BusinessCard(Modifier.padding(top = 16.dp))
+	BusinessCard()
 }
